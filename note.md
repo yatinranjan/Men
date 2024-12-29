@@ -12,3 +12,6 @@ const catMe = require('cat-me')
 // catMe() // => returns a random cat emoji
 
 console.log(catMe()) // => prints a random cat emoji to the console
+
+
+// npx nodemon app.js
