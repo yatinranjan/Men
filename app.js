@@ -20,10 +20,21 @@
 
 // express
 const express = require('express');
+const { console } = require('inspector');
 const app = express();
 
+app.set('view engine', 'ejs');
+
+app.use((req, res, next) => {
+    console.log('this is the first middleware');
+    const a = 2;
+    const b = 3;
+    console.log(a + b);
+    return next();
+})
+
 app.get('/', (req, res) => {
-    res.send('Hello World');
+    res.render('index');
 })
 
 app.get('/about', (req, res) => {
