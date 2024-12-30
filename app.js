@@ -56,8 +56,8 @@ app.get('/profile', (req, res) => {
     res.send('The profile page');
 })
 
-app.get('/get-form-data', (req, res) => {
-    console.log(req.query);
+app.post('/get-form-data', (req, res) => {
+    console.log(req.body);
     res.send('data received');
 });
 
