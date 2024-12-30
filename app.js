@@ -20,20 +20,31 @@
 
 // express
 const express = require('express');
+const morgan = require('morgan');
 const { console } = require('inspector');
 const app = express();
+
+app.use(morgan('dev'));
 
 app.set('view engine', 'ejs');
 
 app.use((req, res, next) => {
-    console.log('this is the first middleware');
+    console.log('this is middleware');
     const a = 2;
     const b = 3;
     console.log(a + b);
     return next();
 })
 
-app.get('/', (req, res) => {
+app.get('/', 
+    (req, res, next) => {
+    const a = 5;
+    const b = 10;
+    console.log(a + b);
+
+    next();
+}
+,(req, res) => {
     res.render('index');
 })
 
@@ -44,6 +55,11 @@ app.get('/about', (req, res) => {
 app.get('/profile', (req, res) => {
     res.send('The profile page');
 })
+
+app.get('/get-form-data', (req, res) => {
+    console.log(req.query);
+    res.send('data received');
+});
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
