@@ -21,8 +21,10 @@
 // express
 const express = require('express');
 const morgan = require('morgan');
-const { console } = require('inspector');
+// const { console } = require('inspector');
 const app = express();
+const userModel = require('./models/user');
+const dbConnection = require('./config/db');
 
 app.use(morgan('dev'));
 
@@ -59,6 +61,20 @@ app.get('/about', (req, res) => {
 app.get('/profile', (req, res) => {
     res.send('The profile page');
 })
+
+app.get('/register', (req, res) => {
+    res.render('register');
+})
+app.post('/register', async (req, res) => {
+    const {username, email, password} = req.body;
+    
+    const newUser = await userModel.create({
+        username: username,
+        email: email,
+        password: password
+    });
+    res.send(newUser)
+});
 
 app.post('/get-form-data', (req, res) => {
     console.log(req.body);
