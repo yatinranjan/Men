@@ -76,6 +76,16 @@ app.post('/register', async (req, res) => {
     res.send(newUser)
 });
 
+app.get('/get-users', (req, res) => {
+    userModel.find({}, (err, users) => {
+        if(err){
+            console.log(err);
+        } else {
+            res.send(users);
+        }
+    });
+});
+
 app.post('/get-form-data', (req, res) => {
     console.log(req.body);
     res.send('data received');
