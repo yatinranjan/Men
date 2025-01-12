@@ -1,6 +1,9 @@
 let express = require("express")
+require("dotenv").config()
+const { checkToken } = require("./checkTokenMiddleware")
 
 let app = express()
+console.log(process.env.MYToken)
 app.use(express.json())
 // let myToken="12345"
 
@@ -16,47 +19,49 @@ app.use(express.json())
 //     next()
 // }
 // app.use(checkToken) // middleware
-const myToken = "12345";
 
-const checkToken = (req, res, next) => {
-    const token = req.query.token;
-    console.log(token);
+// const myToken = "12345";
 
-    if (!token) {
-        return res.send({status: 1, message: "Token is missing. Please provide a valid token."});
-    }
-    if (token !== myToken) {
-        return res.send({status: 1, message: "Invalid token. Please provide the correct token."});
-    }
+// const checkToken = (req, res, next) => {
+//     const token = req.query.token;
+//     console.log(token);
 
-    next();
-};
+//     if (!token) {
+//         return res.send({status: 1, message: "Token is missing. Please provide a valid token."});
+//     }
+//     if (token !== myToken) {
+//         return res.send({status: 1, message: "Invalid token. Please provide the correct token."});
+//     }
 
-app.use(checkToken); // middleware
-const myPassword = "12345";
+//     next();
+// };
 
-const checkPassword = (req, res, next) => {
-    const pass = req.query.pass;
-    console.log(pass);
+// app.use(checkToken); // middleware
 
-    if (!pass) {
-        return res.send({status: 1, message: "Password is missing. Please provide a valid Password."});
-    }
-    if (pass !== myPassword) {
-        return res.send({status: 1, message: "Invalid Password. Please provide the correct Password."});
-    }
+// const myPassword = "12345";
 
-    next();
-};
+// const checkPassword = (req, res, next) => {
+//     const pass = req.query.pass;
+//     console.log(pass);
 
-app.use(checkPassword); // middleware
+//     if (!pass) {
+//         return res.send({status: 1, message: "Password is missing. Please provide a valid Password."});
+//     }
+//     if (pass !== myPassword) {
+//         return res.send({status: 1, message: "Invalid Password. Please provide the correct Password."});
+//     }
+
+//     next();
+// };
+
+// app.use(checkPassword); // middleware
 
 
 
 app.get("/", (req, res) => {
     res.send({status:1, message:"Home Page API"})
 })
-app.get("/news", (req, res) => {
+app.get("/news",checkToken, (req, res) => {
     res.send({status:1, message:"news Page API"})
 })
 
@@ -73,4 +78,5 @@ app.post("/login", (req, res) => {
     res.status(200).json({status:1, message:"Login API", bodyData:req.body, queryData:req.query})
     // res.send({status:1, message:"Login API", bodyData:req.body, queryData:req.query})
 })
-app.listen("8000")
+// app.listen("8000")
+app.listen(process.env.PORT || 5000)
