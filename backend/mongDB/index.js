@@ -53,6 +53,33 @@ app.post("/student-insert",async(req,res)=>{
         }
         res.send(resObj)
     })
+    
+ // update operation
+    app.put("/student-update/:id",async(req,res)=>{
+        let {id}=req.params;
+        let {sName,sEmail}=req.body;
+
+        let obj={} // data
+
+        if(sName !== "" && sName !== undefined && sName !== null){
+            obj["sName"] = sName
+        }
+        if(sEmail !== "" && sEmail !== undefined && sEmail !== null){
+            obj["sEmail"] = sEmail
+        }
+        console.log(obj)
+
+        let myDB= await dbConnection();
+        let studentCollection=myDB.collection("students")
+        let updateRes= await studentCollection.updateOne({_id:new ObjectId(id)},{$set:{sName,sEmail}})
+        let resObj={
+            status:1,
+            message:"Student updated",
+            updateRes
+        }
+        res.send(resObj) 
+    }
+)
 
 app.listen(8000,()=>{
     console.log("Server is running on port 8000")
