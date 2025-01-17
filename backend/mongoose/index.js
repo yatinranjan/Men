@@ -1,7 +1,8 @@
 let express=require('express');
 var mongoose = require('mongoose');
-let enquiryModel = require('./models/enquiry.model');
-const { enquiryInsert } = require('./controllers/web/userEnquiryController');
+const enquiryModel = require('./App/models/enquiry.model');
+const {enquiryInsert, enquiryList, enquiryDelete ,enquiryUpdate } = require('./App/controllers/web/userEnquiryController');
+
 require('dotenv').config();
 
 
@@ -10,6 +11,9 @@ let app=express();
 app.use(express.json());
 
 app.post('/api/enquiry-insert',enquiryInsert);
+app.get('/api/enquiry-list',enquiryList);
+app.delete('/api/enquiry-delete/:id',enquiryDelete);
+app.put('/api/enquiry-update/:id',enquiryUpdate);
 
 // app.post('/api/enquiry-insert',(req,res)=>{
 //     let {sName,sEmail,sPhone,sMessage}=req.body;
@@ -27,17 +31,20 @@ app.post('/api/enquiry-insert',enquiryInsert);
    
 // })
 
-app.get('/api/enquiry-list', async(req,res)=>{
-    let enquiryList = await enquiryModel.find();
-    res.status(200).json({status:1, message:"Enquiry List", data:enquiryList})
-})
+// app.get('/api/enquiry-list', async(req,res)=>{
+    // let enquiryList = await enquiryModel.find();
+    // res.status(200).json({status:1, message:"Enquiry List", data:enquiryList})
+// }
+// )
 
-app.delete('/api/enquiry-delete/:id', async(req,res)=>{
-    let enquiryId = req.params.id;
-    let deletedEnquiry = await enquiryModel.deleteOne({_id:enquiryId});
-    res.send({status:1, message:"Enquiry Deleted successfully",id:enquiryId, 
-    delRes:deletedEnquiry});
-})
+
+// app.delete('/api/enquiry-delete/:id', async(req,res)=>{
+//     let enquiryId = req.params.id;
+//     let deletedEnquiry = await enquiryModel.deleteOne({_id:enquiryId});
+//     res.send({status:1, message:"Enquiry Deleted successfully",id:enquiryId, 
+//     delRes:deletedEnquiry});
+// }
+// )
 
 app.put('/api/enquiry-update/:id', async(req,res)=>{
     let enquiryId = req.params.id;
