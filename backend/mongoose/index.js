@@ -9,12 +9,13 @@ require('dotenv').config();
 let app=express();
 
 app.use(express.json());
+//  2nd type process
+// app.post('/api/enquiry-insert',enquiryInsert);
+// app.get('/api/enquiry-list',enquiryList);
+// app.delete('/api/enquiry-delete/:id',enquiryDelete);
+// app.put('/api/enquiry-update/:id',enquiryUpdate);
 
-app.post('/api/enquiry-insert',enquiryInsert);
-app.get('/api/enquiry-list',enquiryList);
-app.delete('/api/enquiry-delete/:id',enquiryDelete);
-app.put('/api/enquiry-update/:id',enquiryUpdate);
-
+// 1 type process
 // app.post('/api/enquiry-insert',(req,res)=>{
 //     let {sName,sEmail,sPhone,sMessage}=req.body;
 //     let enquiry=new enquiryModel({
