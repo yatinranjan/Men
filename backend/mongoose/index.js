@@ -1,7 +1,8 @@
 let express=require('express');
 var mongoose = require('mongoose');
-const enquiryModel = require('./App/models/enquiry.model');
-const {enquiryInsert, enquiryList, enquiryDelete ,enquiryUpdate } = require('./App/controllers/web/userEnquiryController');
+// const enquiryModel = require('./App/models/enquiry.model');
+// const {enquiryInsert, enquiryList, enquiryDelete ,enquiryUpdate } = require('./App/controllers/web/userEnquiryController');
+const enquiryRoutes = require('./App/routes/web/enquiryRoutes');
 
 require('dotenv').config();
 
@@ -9,6 +10,11 @@ require('dotenv').config();
 let app=express();
 
 app.use(express.json());
+
+// 3rd type process
+app.use('/web/api/enquiry',enquiryRoutes);
+//http://localhost:8000/web/api/enquiry/enquiry-insert
+
 //  2nd type process
 // app.post('/api/enquiry-insert',enquiryInsert);
 // app.get('/api/enquiry-list',enquiryList);
@@ -47,18 +53,18 @@ app.use(express.json());
 // }
 // )
 
-app.put('/api/enquiry-update/:id', async(req,res)=>{
-    let enquiryId = req.params.id;
-    let {sName,sEmail,sPhone,sMessage}=req.body;
-    let updateObj = {
-        name:sName,
-        email:sEmail,
-        phone:sPhone,
-        message:sMessage
-    };
-    let updateRes = await enquiryModel.updateOne({_id:enquiryId},updateObj);
-    res.send({status:1, message:"Enquiry Updated successfully",updateRes});
-})
+// app.put('/api/enquiry-update/:id', async(req,res)=>{
+//     let enquiryId = req.params.id;
+//     let {sName,sEmail,sPhone,sMessage}=req.body;
+//     let updateObj = {
+//         name:sName,
+//         email:sEmail,
+//         phone:sPhone,
+//         message:sMessage
+//     };
+//     let updateRes = await enquiryModel.updateOne({_id:enquiryId},updateObj);
+//     res.send({status:1, message:"Enquiry Updated successfully",updateRes});
+// })
 
 mongoose.connect(process.env.DBUrl).then(()=>{
     console.log('connected to MongoDB');
